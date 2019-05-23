@@ -25,6 +25,7 @@ public class DataHolder : MonoBehaviour
     private List<int> recordRot = new List<int>();
     private List<int> pointColors = new List<int>();
 
+
     private bool[] keepPointCache;
 
     private bool rendering = false;
@@ -158,6 +159,63 @@ public class DataHolder : MonoBehaviour
                 inst.GetComponent<MeshRenderer>().sharedMaterial.color = colors[pointColors[i]];
                 instDataPoints.Add(inst);
             }
+        }
+    }
+
+
+    public Color[] Colors
+    {
+        get
+        {
+            return colors;
+        }
+    }
+
+    public List<int> PointColors
+    {
+        get
+        {
+            return pointColors;
+        }
+        set
+        {
+            pointColors = value;
+        }
+    }
+
+    public List<int> RecrodRot
+    {
+        get
+        {
+            return recordRot;
+        }
+        set
+        {
+            recordRot = value;
+        }
+    }
+
+    public List<Vector3> RecordedPos
+    {
+        get
+        {
+            return recordPos;
+        }
+        set
+        {
+            recordPos = value;
+        }
+    }
+
+    public List<Vector3> Points
+    {
+        get
+        {
+            return points;
+        }
+        set
+        {
+            points = value;
         }
     }
 
