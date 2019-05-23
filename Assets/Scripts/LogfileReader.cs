@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using Zlib;
 
 public class LogfileReader : MonoBehaviour
 {
@@ -22,6 +23,15 @@ public class LogfileReader : MonoBehaviour
         if (File.Exists(path.text))
         {
             string[] lines = File.ReadAllLines(path.text);
+
+            /*
+            for (int i = 0; i < 20; i++)
+            {
+                ZlibCodec cod = new ZlibCodec(CompressionMode.Decompress);
+                cod.InputBuffer = System.Text.Encoding.ASCII.GetBytes(lines[i]);
+                ZLibf
+                Debug.Log( Zlib.DeflateStream.UncompressString(System.Text.Encoding.ASCII.GetBytes(lines[i])));
+            }*/
 
             for (int i = 0; i < lines.Length; i++)
             {
