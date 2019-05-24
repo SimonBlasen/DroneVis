@@ -73,7 +73,6 @@ public class OcupancyGrid : MonoBehaviour
     public void AddPoint(Vector3 pos)
     {
         pos = new Vector3((pos.x - offset.x) / scale.x + gridDimX * 0.5f, (pos.y - offset.y) / scale.y + gridDimY * 0.5f, (pos.z - offset.z) / scale.z + gridDimZ * 0.5f);
-        // += (new Vector3(gridDimX * scale.x, gridDimY * scale.y, gridDimZ * scale.z) * 0.5f) + offset;
 
         Vector3Int gridPos = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
         if (gridPos.x >= 0 && gridPos.x < gridDimX

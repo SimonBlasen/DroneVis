@@ -19,6 +19,8 @@ public class DataHolder : MonoBehaviour
     private int renderAmountsPerSecond = 0;
     [SerializeField]
     private Color[] colors;
+    [SerializeField]
+    private OcupancyGrid ocupancyGrid;
 
     private List<Vector3> points = new List<Vector3>();
     private List<Vector3> recordPos = new List<Vector3>();
@@ -43,13 +45,17 @@ public class DataHolder : MonoBehaviour
             
             while (animIndex < counter)
             {
-                if (pointColors[animIndex] == 0 || keepPointCache[animIndex])
+                if (pointColors[animIndex] == 0 /*|| keepPointCache[animIndex]*/)
                 {
                     GameObject inst = Instantiate(pointPrefab);
                     inst.transform.position = points[animIndex];
                     inst.GetComponent<MeshRenderer>().sharedMaterial = new Material(inst.GetComponent<MeshRenderer>().sharedMaterial);
                     inst.GetComponent<MeshRenderer>().sharedMaterial.color = colors[pointColors[animIndex]];
                     instDataPoints.Add(inst);
+                }
+                else
+                {
+                    ocupancyGrid.AddPoint(points[animIndex]);
                 }
 
                 animIndex++;
@@ -115,11 +121,13 @@ public class DataHolder : MonoBehaviour
         instDataPoints.Clear();
         instDataPoints = new List<GameObject>();
 
-        keepPointCache = new bool[points.Count];
+        ocupancyGrid.ClearData();
+
+        /*keepPointCache = new bool[points.Count];
         for (int i = 0; i < keepPointCache.Length; i++)
         {
             keepPointCache[i] = true;
-        }
+        }*/
         counter = 0f;
         animIndex = 0;
         renderAmountsPerSecond = System.Convert.ToInt32(renderAmountsInput.text);
@@ -127,11 +135,11 @@ public class DataHolder : MonoBehaviour
         {
             renderAmountsPerSecond = 100000;
         }
-        for (int i = 0; i < points.Count; i++)
+        /*for (int i = 0; i < points.Count; i++)
         {
             if (pointColors[i] != 0)
                 keepPoint(i);
-        }
+        }*/
         rendering = true;
     }
 
@@ -151,7 +159,7 @@ public class DataHolder : MonoBehaviour
         }
         for (int i = 0; i < points.Count; i++)
         {
-            if (pointColors[i] == 0 || keepPoint(i))
+            if (pointColors[i] == 0/* || keepPoint(i)*/)
             {
                 GameObject inst = Instantiate(pointPrefab);
                 inst.transform.position = points[i];

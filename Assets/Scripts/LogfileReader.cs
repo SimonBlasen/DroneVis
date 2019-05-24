@@ -15,7 +15,7 @@ public class LogfileReader : MonoBehaviour
 
     private void Start()
     {
-        path.text = @"C:\Users\Simon\Downloads\mapping.log";
+        path.text = @"C:\Users\Simon\Downloads\zmqmessages.log";
     }
 
     public void ReadFile()
@@ -24,16 +24,25 @@ public class LogfileReader : MonoBehaviour
         {
             string[] lines = File.ReadAllLines(path.text);
 
-            /*
-            for (int i = 0; i < 20; i++)
+            
+            for (int i = 19; i < 20; i++)
             {
                 ZlibCodec cod = new ZlibCodec(CompressionMode.Decompress);
                 cod.InputBuffer = System.Text.Encoding.ASCII.GetBytes(lines[i]);
-                ZLibf
-                Debug.Log( Zlib.DeflateStream.UncompressString(System.Text.Encoding.ASCII.GetBytes(lines[i])));
-            }*/
+                byte[] output = new byte[1024];
+                cod.OutputBuffer = output;
+                cod.InitializeDeflate();
+                int def = cod.Deflate(FlushType.Full);
+                Debug.Log("Deflate: " + def.ToString());
+                Debug.Log("Output length: " + cod.OutputBuffer.Length.ToString());
+                for (int j = 0; j < cod.OutputBuffer.Length; j++)
+                {
+                    Debug.Log(j.ToString() + ": " + cod.OutputBuffer[j].ToString());
+                }
+                //Debug.Log( Zlib.DeflateStream.UncompressString(System.Text.Encoding.ASCII.GetBytes(lines[i])));
+            }
 
-            for (int i = 0; i < lines.Length; i++)
+            /*for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i].Length > 3)
                 {
@@ -91,7 +100,7 @@ public class LogfileReader : MonoBehaviour
                     dataHolder.AddData(midPos, midPos, yaw, 0);
                 }
             }
-
+            */
         }
     }
 }
