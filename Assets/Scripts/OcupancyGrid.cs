@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OcupancyGrid : MonoBehaviour
 {
@@ -26,6 +27,14 @@ public class OcupancyGrid : MonoBehaviour
     private GameObject dataPrefab;
     [SerializeField]
     private DataHolder dataHolder;
+    [SerializeField]
+    private InputField inputGridX;
+    [SerializeField]
+    private InputField inputGridY;
+    [SerializeField]
+    private InputField inputGridXSize;
+    [SerializeField]
+    private InputField inputGridYSize;
 
     private List<GameObject> inst = new List<GameObject>();
 
@@ -35,6 +44,11 @@ public class OcupancyGrid : MonoBehaviour
     void Start()
     {
         initGrid();
+
+        inputGridX.text = gridDimX.ToString();
+        inputGridY.text = gridDimZ.ToString();
+        inputGridXSize.text = scale.x.ToString();
+        inputGridYSize.text = scale.z.ToString();
     }
 
     // Update is called once per frame
@@ -50,6 +64,16 @@ public class OcupancyGrid : MonoBehaviour
             fetchData = false;
             FetchData();
         }
+    }
+
+    public void SetParametersGUI()
+    {
+        gridDimX = System.Convert.ToInt32(inputGridX.text);
+        gridDimZ = System.Convert.ToInt32(inputGridY.text);
+        scale.x = System.Convert.ToSingle(inputGridXSize.text);
+        scale.z = System.Convert.ToSingle(inputGridYSize.text);
+
+        initGrid();
     }
 
     public void FetchData()

@@ -110,47 +110,47 @@ public class ClientObject : MonoBehaviour
             {
                 if (elements[i].Split(':')[0] == "\"x\"")
                 {
-                    x = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    x = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if (elements[i].Split(':')[0] == "\"y\"")
                 {
-                    y = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    y = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if(elements[i].Split(':')[0] == "\"z\"")
                 {
-                    z = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    z = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if (elements[i].Split(':')[0] == "\"yaw\"")
                 {
-                    yaw = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    yaw = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if (elements[i].Split(':')[0] == "\"distance_front\"")
                 {
-                    m1 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    m1 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if (elements[i].Split(':')[0] == "\"distance_back\"")
                 {
-                    m2 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    m2 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if (elements[i].Split(':')[0] == "\"distance_up\"")
                 {
-                    m3 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    m3 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if(elements[i].Split(':')[0] == "\"distance_left\"")
                 {
-                    m4 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    m4 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
                 else if (elements[i].Split(':')[0] == "\"distance_right\"")
                 {
-                    m5 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    m5 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(",", ","));
                     setAmount++;
                 }
             }
@@ -209,6 +209,8 @@ public class ClientObject : MonoBehaviour
         }
         System.IO.File.AppendAllText("./zmqmessages.log", "\n######### New Run #############\n");
         //string server = "tcp://127.0.0.1";
+        inputIP.text = "tcp://127.0.0.1:5578";
+        inputTopic.text = "pose";
     }
 
     private void Update()
