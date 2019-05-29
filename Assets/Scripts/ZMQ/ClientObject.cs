@@ -80,6 +80,8 @@ public class NetMqListener
 
 public class ClientObject : MonoBehaviour
 {
+    public LogfileReader logfileReader;
+
     private NetMqListener _netMqListener = null;
 
     public Text messagesText;
@@ -95,14 +97,88 @@ public class ClientObject : MonoBehaviour
         var z = float.Parse(splittedStrings[2]);
         transform.position = new Vector3(x, y, z);*/
 
-        messagesText.text += "\n" + "[m] " + message;
+        if (message.Length > 10)
+        {
+            message = message.Replace(" ", "");
+            message = message.Split('{')[1].Split('}')[0];
+            string[] elements = message.Split(',');
 
-        System.IO.File.AppendAllText("./zmqmessages.log", "\n" + message);
+            int x = -1, y = -1, z = -1, yaw = -1, m1 = -1, m2 = -1, m3 = -1, m4 = -1, m5 = -1;
+            int setAmount = 0;
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                if (elements[i].Split(':')[0] == "\"x\"")
+                {
+                    x = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if (elements[i].Split(':')[0] == "\"y\"")
+                {
+                    y = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if(elements[i].Split(':')[0] == "\"z\"")
+                {
+                    z = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if (elements[i].Split(':')[0] == "\"yaw\"")
+                {
+                    yaw = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if (elements[i].Split(':')[0] == "\"distance_front\"")
+                {
+                    m1 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if (elements[i].Split(':')[0] == "\"distance_back\"")
+                {
+                    m2 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if (elements[i].Split(':')[0] == "\"distance_up\"")
+                {
+                    m3 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if(elements[i].Split(':')[0] == "\"distance_left\"")
+                {
+                    m4 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+                else if (elements[i].Split(':')[0] == "\"distance_right\"")
+                {
+                    m5 = (int)System.Convert.ToSingle(elements[i].Split(':')[1].Replace(".", ","));
+                    setAmount++;
+                }
+            }
+
+            if (setAmount == 9)
+            {
+                messagesText.text += "Added Dataset (" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "," + yaw.ToString() + "," + m1.ToString() + ") from ("
+                    + message + ") #";
+                logfileReader.AddDataSetToDataholder(x, y, z, yaw, m1, m2, m3, m4, m5);
+            }
+            else
+            {
+                messagesText.text += "Not added Dataset (" + x.ToString() + "," + y.ToString() + ","  + z.ToString() + "," + yaw.ToString() + "," + m1.ToString() + ")#";
+            }
+        }
+
+
+        //messagesText.text += "\n" + "[m] " + message;
+
+        //System.IO.File.AppendAllText("./zmqmessages.log", "\n" + message);
     }
 
     public void ClearText()
     {
         messagesText.text = "";
+
+        //HandleMessage("{\"x\": -0.5528, \"y\": -0.7506, \"z\": 500.4082, \"distance_front\": 328, \"distance_back\": 1432, \"distance_up\": 3545, \"distance_left\": 1385, \"distance_right\": 660, \"yaw\": -3.4013359546661377}");
+        //HandleMessage("pose\n{\"x\": -1.5528, \"y\": -1.7506, \"z\": 501.4082, \"distance_front\": 328, \"distance_back\": 1432, \"distance_up\": 3545, \"distance_left\": 1385, \"distance_right\": 660, \"yaw\": -3.4013359546661377}");
     }
     
     public void ConnectToZMQ()

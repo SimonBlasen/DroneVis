@@ -31,6 +31,7 @@ public class DataHolder : MonoBehaviour
     private bool[] keepPointCache;
 
     private bool rendering = false;
+    private bool liveAnimating = false;
 
     private List<GameObject> instDataPoints = new List<GameObject>();
 
@@ -41,7 +42,14 @@ public class DataHolder : MonoBehaviour
     {
         if (rendering)
         {
-            counter += Time.deltaTime * renderAmountsPerSecond;
+            if (liveAnimating)
+            {
+                counter = points.Count - 1;
+            }
+            else
+            {
+                counter += Time.deltaTime * renderAmountsPerSecond;
+            }
             
             while (animIndex < counter)
             {
@@ -60,7 +68,7 @@ public class DataHolder : MonoBehaviour
 
                 animIndex++;
 
-                if (animIndex >= points.Count)
+                if (liveAnimating == false && animIndex >= points.Count)
                 {
                     rendering = false;
                     break;
@@ -110,6 +118,13 @@ public class DataHolder : MonoBehaviour
         keepPointCache = null;
 
         refreshDataText();
+    }
+
+    public void AnimateLive()
+    {
+        liveAnimating = true;
+        renderAmountsInput.text = "0";
+        Animate();
     }
 
     public void Animate()
